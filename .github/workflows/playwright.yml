@@ -1,0 +1,33 @@
+name: Playwright Hybrid CI/CD Pipeline
+
+# 1. TRIGGER: Wake up when code is pushed to main
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  run-playwright-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 2. Grab the code from the repository
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 3. Install Node.js (v20 is the cloud standard!)
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    # 4. Install our project dependencies (reads the package.json file)
+    - name: Install Dependencies
+      run: npm ci
+
+    # 5. CRITICAL FOR PLAYWRIGHT: Download the Chromium, Firefox, and WebKit browsers into the cloud!
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+
+    # 6. Run all our tests (UI and API!)
+    - name: Run Playwright Tests
+      run: npx playwright test
