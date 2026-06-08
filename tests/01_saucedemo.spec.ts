@@ -20,7 +20,7 @@ test('Successful login to SauceDemo (raw way)', async ({ page }) => {
 // ];
 
 for (const data of loginData) {
-    test.only(`Successful login using POM for user: ${data.username}`, async ({ page }) => {
+    test(`Successful login using POM for user: ${data.username}`, async ({ page }) => {
         const loginPage = new LoginPage(page);
         const inventoryPage = await loginPage.loginToApplication(data.username, data.password);
         // const titleLocator = inventoryPage.getProductsTitleLocator();
